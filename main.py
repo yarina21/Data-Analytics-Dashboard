@@ -1,6 +1,6 @@
 from fastapi import FastAPI #importam libraria FastAPI
 from app.database.connection import engine, Base, SessionLocal 
-from app.models import Transaction
+from app.models import transaction
 
 from fastapi import Depends # cerem o conexiune la baza de date doar atunci cand este nevoie
 from sqlalchemy.orm import Session
@@ -20,7 +20,7 @@ def get_db():
 
 @app.post("/transaction") # destinatia unde utilizatorul trimte datele
 def create_transaction(transaction: TransactionCreate, db : Session = Depends(get_db)): # apeleaza functia get_db pt a porni sesiunea
-    new_item = Transaction( # creez un rand nou pe care vreau sa o introduc in tabel
+    new_item = transaction( # creez un rand nou pe care vreau sa o introduc in tabel
         titlu=transaction.titlu,
         suma=transaction.suma,
         categorie=transaction.categorie
