@@ -1,4 +1,6 @@
 from fastapi import FastAPI #importam libraria FastAPI
+from app.database.connection import engine, Base 
+from app.models import transaction
 
 app = FastAPI() #am creat o aplicatie care va fi pornita live pe un server cu comanda din terminal fastapi dev main.py
 
