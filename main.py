@@ -39,6 +39,13 @@ async def root(): #o functie asincrona, poate gestiona sute de cereri in ac timp
                   # numita oricum
     return {"message": "Hello Yari"} 
 
+# acum trebuie sa fac un request de tip GET care sa mi returneze datele din baza de date
+
+@app.get("/transaction", response_model = list[TransactionResponse]) # response_model = list[TransactionResponse] decid ce pleaca
+                                                                     # spre utilizator, in cazul meu doar id ul
+def get_transactions(db: Session = Depends(get_db)): # apelez functia pentru a deschide o sesiune noua
+    transactions = db.query(Transaction).all() # se duce in baza de date si cauta tabelul Transaction din care selecteaza TOT
+    return transactions
 
 # am creat un fisier de tipul .gitignore pentru a pune acolo fiserele care trebuiesc ignorate 
 # (nu le incarcam pe git)
