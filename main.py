@@ -3,6 +3,7 @@ from app.database.connection import engine, Base, SessionLocal
 from app.models.transaction import Transaction
 
 from fastapi import Depends # cerem o conexiune la baza de date doar atunci cand este nevoie
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from app.schemas.transaction import TransactionCreate, TransactionResponse
 
@@ -11,6 +12,15 @@ import pandas as pd
 Base.metadata.create_all(bind=engine) # pt a crea fisierul .db
 
 app = FastAPI() #am creat o aplicatie care va fi pornita live pe un server cu comanda din terminal fastapi dev main.py
+
+# Enable CORS for frontend communication
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (for development)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = SessionLocal() # creez o sesiune
@@ -57,7 +67,11 @@ def get_stats(db: Session = Depends(get_db)):
     transactions = db.query(Transaction).all() # preia toate datele din tabel
     
     if not transactions: # daca nu sunt date retuneaza mesajul de mai jos
-        return {"Message" : "Nu exista date pentru statistici inca."}
+        return {
+            "balanca_totala": 0.0,
+            "repartizare_pe_categorii": {},
+            "total_tranzactii": 0
+        }
     
     df = pd.DataFrame([ # fac un data frame cu datele respective din tabelul transactions
         {
@@ -76,6 +90,8 @@ def get_stats(db: Session = Depends(get_db)):
         "repartizare_pe_categorii": stats_categorii,
         "total_tranzactii": len(df)
     }
+
+### fac un request de tip DELETE
     
 @app.delete("/transaction/{transaction_id}") # ii spun ce tranzactie sa stearga, o identifica dupa id ul ei care e primary key
 def delete_transaction(transaction_id: int, db: Session = Depends(get_db)): # ii dau ca parametru transaction_id care este de tip int si creez o noua sesiune
