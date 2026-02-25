@@ -33,35 +33,6 @@ Tailwind CSS: Utility-first CSS framework for modern styling.
 
 Chart.js: Flexible JavaScript charting for data visualization.
 
-📂 Project Structure
-Plaintext
-├── app/
-│   ├── database/       # Connection and session management
-│   ├── models/         # SQLAlchemy database models
-│   └── schemas/        # Pydantic models for data validation
-├── main.py             # FastAPI entry point & API routes
-├── wealth.db           # SQLite database file
-├── index.html          # Frontend dashboard
-└── requirements.txt    # Project dependencies
-⚙️ Installation & Setup
-Clone the repository:
-
-Bash
-git clone https://github.com/yarina21/wealth-manager.git
-cd wealth-manager
-Install dependencies:
-
-Bash
-pip install -r requirements.txt
-Run the Backend:
-
-Bash
-fastapi dev main.py
-The API will be available at http://127.0.0.1:8000.
-Interactive docs (Swagger) can be found at http://127.0.0.1:8000/docs.
-
-Open the Frontend:
-Simply open index.html in your favorite web browser.
 
 📊 API Endpoints
 GET /transaction - Fetch all recorded transactions.
