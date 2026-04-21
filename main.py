@@ -8,6 +8,9 @@ from sqlalchemy.orm import Session
 from app.schemas.transaction import TransactionCreate, TransactionResponse
 
 import pandas as pd
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
 
 Base.metadata.create_all(bind=engine) # pt a crea fisierul .db
 
@@ -45,11 +48,11 @@ def create_transaction(transaction: TransactionCreate, db : Session = Depends(ge
 
 
 
-@app.get("/") #este un decorator specific fastapi, identifica ruta "/" (principala) 
-async def root(): #o functie asincrona, poate gestiona sute de cereri in ac timp fata de sync.
-                  # Functia se numeste root pt ca e ruta principala, este o conventie de nume, poate fi
-                  # numita oricum
-    return {"message": "Hello Yari"} 
+# @app.get("/") #este un decorator specific fastapi, identifica ruta "/" (principala) 
+# async def root(): #o functie asincrona, poate gestiona sute de cereri in ac timp fata de sync.
+#                   # Functia se numeste root pt ca e ruta principala, este o conventie de nume, poate fi
+#                   # numita oricum
+#     return {"message": "Hello Yari"} 
 
 ### acum trebuie sa fac un request de tip GET care sa mi returneze datele din baza de date
 
