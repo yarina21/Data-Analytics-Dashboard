@@ -9,6 +9,8 @@ from app.schemas.transaction import TransactionCreate, TransactionResponse
 
 import pandas as pd
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
 
 
 
@@ -16,7 +18,12 @@ Base.metadata.create_all(bind=engine) # pt a crea fisierul .db
 
 app = FastAPI() #am creat o aplicatie care va fi pornita live pe un server cu comanda din terminal fastapi dev main.py
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+app.mount("/static", StaticFiles(directory=".", html=True), name="static")
+
+
+@app.get("/")
+def serve_home():
+    return FileResponse("index.html")
 
 # Enable CORS for frontend communication
 app.add_middleware(
